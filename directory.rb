@@ -205,13 +205,54 @@ class to find out how to use a code block (do...end) to access a file, so that w
 didn't have to close it explicitly (it will be closed automatically when the block 
 finishes). Refactor the code to use a code block.
 
+def save_students
+  file = File.open("students.csv", "w") do |file|
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
+  end
+end
 
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+    name, cohort = line.chomp.split(",")
+      @students << {name: name, cohort: cohort.to_sym}
+    end
+  end
+end
+
+Above, we are no longer closing the file explicitly, the file closes automatically once our
+block in both the save_students and the load_students method stops running.
 
 7. We are de-facto using CSV format to store data. However, Ruby includes a library to
 work with the CSV files that we could use instead of working directly with the files. 
 Refactor the code to use this library.
 
+To start with, we would write "require 'csv'" right at the top of our program to add the csv
+library to the code.
 
+Then, in order to save to the csv library, we would modify our save_students method to:
+def save_students
+  CSV.open("students.csv", "w") do |csv|
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv << student_data
+    end
+  end
+end
+
+Finally, in order to load from the csv library, we would modify our load_students method to:
+def load_students(filename = "students.csv")
+  CSV.open(filename, "r") do |csv|
+    csv.readlines.each do |line|
+      loaded_hash = {name: line[0], cohort: line[1]}
+      @students << loaded_hash
+    end
+  end
+end
 
 8. Write a short program that reads its own source code (search Stack Overflow to find
 out how to get the name of the currently executed file) and prints it on the screen.

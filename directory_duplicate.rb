@@ -163,7 +163,30 @@ both the name and the cohort? What if one of the values is empty? Can you supply
 a default value? The input will be given to you as a string? How will you convert
 it into a symbol? What if the user makes a typo?
 
+def input_students
+  puts "Please enter the name of the students"
+  puts "To finish, just hit return twice"
+  students = []
+  name = gets.chomp
+  puts "Please enter the cohort for this student"
+  cohort = gets.chomp
+  while !name.empty? && !cohort.empty? do
+    students << {name: name, cohort: cohort}
+    puts "Now we have #{students.count} students"
+    name = gets.chomp
+    puts "Please enter the cohort for this student"
+    cohort = gets.chomp
+  end
+  students
+end
 
+=> Expected output when passing through Michael Myers and Jason Voorhees as names, and November
+and April as cohorts:
+The students of Villains Academy
+-------------
+Michael Myers (November cohort)
+Jason Voorhees (April cohort)
+Overall, we have 2 great students
 
 Q8) Once you complete the previous exercise, change the way the users are displayed:
 print them grouped by cohorts. To do this, you'll need to get a list of all existing

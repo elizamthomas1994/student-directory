@@ -192,7 +192,24 @@ Q8) Once you complete the previous exercise, change the way the users are displa
 print them grouped by cohorts. To do this, you'll need to get a list of all existing
 cohorts, iterate over it and only print the students from that cohort.
 
+def print(students)
+  group_by_cohort = []
 
+  students.each do |student|
+    group_by_cohort.push(student[:cohort]).uniq!
+  end
+
+  group_by_cohort.each do |cohort|
+    cohort_of_students = []
+    students.each do |student|
+      if student[:cohort] == cohort
+        cohort_of_students.push(student[:name])
+      end
+    end
+    puts cohort
+    puts cohort_of_students
+  end
+end
 
 Q9) Right now if we have only one student, the user will see a message "Now we have
 1 students", whereas it should be "Now we have 1 student". How can you fix it so
